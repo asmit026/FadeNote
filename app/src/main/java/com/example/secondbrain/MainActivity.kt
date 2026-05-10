@@ -59,6 +59,7 @@ fun calculateExpiry(option: String): Long {
 
 @Composable
 fun ThoughtEntryScreen(db: AppDatabase) {
+    val scope = rememberCoroutineScope()
     LaunchedEffect(Unit) {
         scope.launch(Dispatchers.IO) {
             db.thoughtDao().deleteExpired(System.currentTimeMillis())
@@ -67,8 +68,6 @@ fun ThoughtEntryScreen(db: AppDatabase) {
 
     var text by remember { mutableStateOf("") }
     var selectedOption by remember { mutableStateOf("24h") }
-
-    val scope = rememberCoroutineScope()
 
     val thoughts by db.thoughtDao()
     .getActiveThoughts(System.currentTimeMillis())
